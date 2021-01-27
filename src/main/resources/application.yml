@@ -1,0 +1,14 @@
+#spring:
+#  profiles:
+#    active: local
+#
+#---
+#spring:
+#  profiles: local
+#
+#  datasource:
+#    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: "jdbc:mysql://localhost/toby?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false"
+#      username: root
+#      password: 1234
