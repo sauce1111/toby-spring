@@ -31,28 +31,20 @@ public class JdbcContext {
 
     public void executeSql(final String query) throws SQLException {
         workWithStatementStrategy(
-            new StatementStrategy() {
-                public PreparedStatement makePreparedStatement(Connection connection)
-                    throws SQLException {
-                    return connection.prepareStatement(query);
-                }
-            }
+            connection -> connection.prepareStatement(query)
         );
     }
 
     public void executeSqlWithParams(final String query, String... params) throws SQLException {
         workWithStatementStrategy(
-            new StatementStrategy() {
-                public PreparedStatement makePreparedStatement(Connection connection)
-                    throws SQLException {
-                    PreparedStatement ps = connection.prepareStatement(query);
+            connection -> {
+                PreparedStatement ps = connection.prepareStatement(query);
 
-                    for (int i = 0; i < params.length; i++) {
-                        ps.setString(i + 1, params[i]);
-                    }
-
-                    return ps;
+                for (int i = 0; i < params.length; i++) {
+                    ps.setString(i + 1, params[i]);
                 }
+
+                return ps;
             }
         );
     }

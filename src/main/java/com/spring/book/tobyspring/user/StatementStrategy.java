@@ -7,4 +7,5 @@ import java.sql.SQLException;
 public interface StatementStrategy {
 
     PreparedStatement makePreparedStatement(Connection connection) throws SQLException;
+
 }
