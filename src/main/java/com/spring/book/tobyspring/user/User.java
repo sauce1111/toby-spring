@@ -1,6 +1,7 @@
 package com.spring.book.tobyspring.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,13 +12,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-    String id;
-    String name;
-    String password;
+    private String id;
+    private String name;
+    private String password;
 
-    Level level;
-    int login;
-    int recommend;
+    private Level level;
+    private int login;
+    private int recommend;
+
+    private String email;
 
     public void upgradeLevel() {
         Level nextLevel = this.level.nextLevel();
@@ -26,6 +29,16 @@ public class User {
         } else {
             this.level = nextLevel;
         }
+    }
+
+    @Builder
+    public User(String id, String name, String password, Level level, int login, int recommend) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.level = level;
+        this.login = login;
+        this.recommend = recommend;
     }
 
 }

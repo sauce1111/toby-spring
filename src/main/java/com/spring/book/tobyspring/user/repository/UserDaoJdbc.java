@@ -1,13 +1,29 @@
-package com.spring.book.tobyspring.user;
+package com.spring.book.tobyspring.user.repository;
 
+import com.spring.book.tobyspring.user.Level;
+import com.spring.book.tobyspring.user.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+import lombok.NoArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+@NoArgsConstructor
 public class UserDaoJdbc implements UserDao {
+
+    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+
+    public UserDaoJdbc(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.dataSource = dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     private RowMapper<User> userMapper = new RowMapper<User>() {
         @Override
@@ -24,11 +40,6 @@ public class UserDaoJdbc implements UserDao {
         }
     };
 
-    private JdbcTemplate jdbcTemplate;
-
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
 
     public void add(final User user) {
         this.jdbcTemplate.update(

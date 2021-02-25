@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import com.spring.book.tobyspring.user.repository.UserDaoJdbc;
 import java.util.List;
 import javax.sql.DataSource;
 import org.assertj.core.api.Assertions;

@@ -10,7 +10,7 @@
 <!--      <property name = "password" value = "1234"	/>-->
 <!--    </bean>-->
 
-<!--    <bean id = "userDaoJdbc" class = "com.spring.book.tobyspring.user.UserDaoJdbc" >-->
+<!--    <bean id = "userDaoJdbc" class = "com.spring.book.tobyspring.user.repository.UserDaoJdbc" >-->
 <!--      <property name = "dataSource" ref="dataSource" />-->
 <!--    </bean>-->
 

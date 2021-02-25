@@ -1,5 +1,6 @@
-package com.spring.book.tobyspring.user;
+package com.spring.book.tobyspring.user.repository;
 
+import com.spring.book.tobyspring.user.User;
 import java.util.List;
 
 public interface UserDao {
@@ -15,4 +16,5 @@ public interface UserDao {
     int getCount();
 
     void update(User user);
+
 }
