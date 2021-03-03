@@ -12,7 +12,6 @@ import com.spring.book.tobyspring.user.service.UserService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -153,7 +152,6 @@ public class UserServiceTest {
     }
 
     static class MockMailSender implements MailSender {
-
         private List<String> requests = new ArrayList<>();
 
         public List<String> getRequests() {
@@ -162,7 +160,7 @@ public class UserServiceTest {
 
         @Override
         public void send(SimpleMailMessage mailMessage) throws MailException {
-            requests.add(Objects.requireNonNull(mailMessage.getTo())[0]);
+            requests.add(mailMessage.getTo()[0]);
         }
 
         @Override

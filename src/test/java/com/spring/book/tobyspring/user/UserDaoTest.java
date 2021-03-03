@@ -36,9 +36,9 @@ class UserDaoTest {
         dao = applicationContext.getBean("userDao", UserDaoJdbc.class);
         dataSource = applicationContext.getBean("dataSource", DataSource.class);
 
-        user1 = new User("id1", "name1", "pass1", Level.BASIC, 1, 0);
-        user2 = new User("id2", "name2", "pass2", Level.SILVER, 55, 10);
-        user3 = new User("aid3", "name3", "pass3", Level.GOLD, 100, 40);
+        user1 = new User("id1", "name1", "pass1", Level.BASIC, 1, 0, "test1@gmail.com");
+        user2 = new User("id2", "name2", "pass2", Level.SILVER, 55, 10, "test2@gmail.com");
+        user3 = new User("aid3", "name3", "pass3", Level.GOLD, 100, 40, "test3@gmail.com");
     }
 
     @AfterEach
@@ -121,6 +121,7 @@ class UserDaoTest {
         assertThat(user1.getLevel(), is(user2.getLevel()));
         assertThat(user1.getLogin(), is(user2.getLogin()));
         assertThat(user1.getRecommend(), is(user2.getRecommend()));
+        assertThat(user1.getEmail(), is(user2.getEmail()));
     }
 
     @Test

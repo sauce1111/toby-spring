@@ -14,7 +14,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1'
+    implementation group: 'org.springframework', name: 'spring-context-support', version: '3.0.7.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+
     implementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

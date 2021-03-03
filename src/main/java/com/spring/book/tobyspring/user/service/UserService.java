@@ -3,11 +3,22 @@ package com.spring.book.tobyspring.user.service;
 import com.spring.book.tobyspring.user.Level;
 import com.spring.book.tobyspring.user.User;
 import com.spring.book.tobyspring.user.repository.UserDao;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 public class UserService {
@@ -38,7 +49,6 @@ public class UserService {
     }
 
     public void upgradeLevels() {
-
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
@@ -69,15 +79,11 @@ public class UserService {
         final Level currentLevel = user.getLevel();
 
         switch (currentLevel) {
-            case BASIC:
-                return (user.getLogin() >= MIN_LOGCOUNT_FOR_SILVER);
-            case SILVER:
-                return (user.getRecommend() >= MIN_RECOMMEND_FOR_GOLD);
-            case GOLD:
+            case BASIC: return (user.getLogin() >= MIN_LOGCOUNT_FOR_SILVER);
+            case SILVER: return (user.getRecommend() >= MIN_RECOMMEND_FOR_GOLD);
+            case GOLD: return false;
 
-                return false;
-            default:
-                throw new IllegalArgumentException("Unknown Level: " + currentLevel);
+            default: throw new IllegalArgumentException("Unknown Level: " + currentLevel);
         }
     }
 
@@ -87,13 +93,12 @@ public class UserService {
         sendUpgradeEMail(user);
     }
 
-
     private void sendUpgradeEMail(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
         mailMessage.setFrom("useradmin@ksug.org");
         mailMessage.setSubject("Upgrade 안내");
-        mailMessage.setText("사용자님의 등급이 " + user.getLevel().name());
+        mailMessage.setText("사용자님의 등급이 " + user.getLevel().name() + " 로 업그레이드 되었어요");
 
         mailSender.send(mailMessage);
     }
