@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDaoJdbc implements UserDao {
 
     private DataSource dataSource;

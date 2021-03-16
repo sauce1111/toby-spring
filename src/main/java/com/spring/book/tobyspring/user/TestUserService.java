@@ -1,19 +1,18 @@
-//package com.spring.book.tobyspring.user;
+package com.spring.book.tobyspring.user;
+
+import com.spring.book.tobyspring.user.service.UserService;
+import com.spring.book.tobyspring.user.service.UserServiceImpl;
+import lombok.AllArgsConstructor;
 //
-//import com.spring.book.tobyspring.user.service.UserService;
-//
-//class TestUserService extends UserService {
+//@AllArgsConstructor
+//class TestUserService extends UserServiceImpl {
 //
 //    private String id;
-//
-//    public TestUserService(String id) {
-//        this.id = id;
-//    }
 //
 //    static class TestUserServiceException extends RuntimeException {}
 //
 //    protected void upgradeLevel(User user) {
-//        if (user.getId().equals(this.id)) {
+//        if (user.getId().equals(id)) {
 //            throw new TestUserServiceException();
 //        }
 //

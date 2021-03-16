@@ -12,3 +12,5 @@
 #      jdbc-url: "jdbc:mysql://localhost/toby?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false"
 #      username: root
 #      password: 1234
+
+spring.main.allow-bean-definition-overriding: true
