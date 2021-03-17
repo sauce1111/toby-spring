@@ -3,6 +3,8 @@ package com.spring.book.tobyspring.factorybean;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import com.spring.book.tobyspring.message.Message;
+import com.spring.book.tobyspring.message.MessageFactoryBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

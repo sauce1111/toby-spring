@@ -1,15 +1,15 @@
 package com.spring.book.tobyspring.learningtest;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Method;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class ReflectionTest {
+public class ReflectionTest {
 
     @Test
-    void invokeMethod() throws Exception {
+    public void invokeMethod() throws Exception {
         String name = "spring";
 
         assertThat(name.length(), is(6));
@@ -22,4 +22,5 @@ class ReflectionTest {
         Method charAtMethod = String.class.getMethod("charAt", int.class);
         assertThat((Character) charAtMethod.invoke(name, 0), is('s'));
     }
+
 }

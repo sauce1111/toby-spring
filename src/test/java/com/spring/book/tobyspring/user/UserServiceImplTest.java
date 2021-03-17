@@ -14,10 +14,10 @@ import com.spring.book.tobyspring.user.service.UserServiceImpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.jws.soap.SOAPBinding.Use;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +26,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.PlatformTransactionManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -116,11 +115,11 @@ public class UserServiceImplTest {
     @Test
     @DirtiesContext
     public void upgradeAllOrNothing() throws Exception {
-        UserServiceImpl testUserServiceImpl = new TestUserServiceImpl(users.get(3).getId());
-        testUserServiceImpl.setUserDao(this.userDao);
+        TestUserServiceImpl testUserServiceImpl = new TestUserServiceImpl(users.get(3).getId());
+        testUserServiceImpl.setUserDao(userDao);
         testUserServiceImpl.setMailSender(mailSender);
 
-        TxProxyFactoryBean txProxyFactoryBean = context.getBean("%userService", TxProxyFactoryBean.class);
+        ProxyFactoryBean txProxyFactoryBean = context.getBean("%userService", ProxyFactoryBean.class);
         txProxyFactoryBean.setTarget(testUserServiceImpl);
         UserService txUserService = (UserService) txProxyFactoryBean.getObject();
 

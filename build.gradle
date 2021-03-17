@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'org.springframework.boot' version '2.0.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
 }
@@ -17,14 +17,16 @@ dependencies {
     implementation group: 'javax.activation', name: 'activation', version: '1.1'
     implementation group: 'org.springframework', name: 'spring-context-support', version: '3.0.7.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+    implementation group: 'org.springframework', name: 'spring-aop', version: '3.0.7.RELEASE'
 
     implementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    implementation group: 'aopalliance', name: 'aopalliance', version: '1.0'
+
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.3.5.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.0.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {

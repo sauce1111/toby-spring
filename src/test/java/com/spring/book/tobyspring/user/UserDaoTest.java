@@ -8,16 +8,14 @@ import com.spring.book.tobyspring.user.repository.UserDaoJdbc;
 import java.util.List;
 import javax.sql.DataSource;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-class UserDaoTest {
+public class UserDaoTest {
 
     private User user1;
     private User user2;
@@ -29,7 +27,7 @@ class UserDaoTest {
     @Autowired
     DataSource dataSource;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
             DaoFactory.class);
@@ -41,14 +39,13 @@ class UserDaoTest {
         user3 = new User("aid3", "name3", "pass3", Level.GOLD, 100, 40, "test3@gmail.com");
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         dao.deleteAll();
     }
 
     @Test
-    @DisplayName("새로운 User를 추가한다.")
-    void addAndGet() {
+    public void addAndGet() {
         dao.add(user1);
         dao.add(user2);
         Assertions.assertThat(dao.getCount()).isEqualTo(2);
@@ -61,8 +58,7 @@ class UserDaoTest {
     }
 
     @Test
-    @DisplayName("총 User가 몇 명인지 조회한다.")
-    void count() {
+    public void count() {
         dao.deleteAll();
         Assertions.assertThat(dao.getCount()).isEqualTo(0);
 
@@ -77,8 +73,7 @@ class UserDaoTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 User id로 조회시 예외가 발생한다.")
-    void getUserFailure() {
+    public void getUserFailure() {
         dao.deleteAll();
         Assertions.assertThat(dao.getCount()).isEqualTo(0);
 
@@ -87,7 +82,7 @@ class UserDaoTest {
     }
 
     @Test
-    void getAll() {
+    public void getAll() {
         dao.deleteAll();
 
         List<User> users0 = dao.getAll();
@@ -124,18 +119,17 @@ class UserDaoTest {
         assertThat(user1.getEmail(), is(user2.getEmail()));
     }
 
-    @Test
-    void duplicateKey() {
-        dao.deleteAll();
-        dao.add(user1);
-        org.junit.jupiter.api.Assertions.assertThrows(DuplicateKeyException.class, () -> {
-            dao.add(user1);
-        });
-    }
+//    @Test
+//    void duplicateKey() {
+//        dao.deleteAll();
+//        dao.add(user1);
+//        org.junit.jupiter.api.Assertions.assertThrows(DuplicateKeyException.class, () -> {
+//            dao.add(user1);
+//        });
+//    }
 
     @Test
-    @DisplayName("사용자 정보 수정")
-    void update() {
+    public void update() {
         dao.deleteAll();
         dao.add(user1);
         dao.add(user2);

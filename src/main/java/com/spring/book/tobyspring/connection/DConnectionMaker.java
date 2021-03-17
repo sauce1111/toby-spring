@@ -3,7 +3,9 @@ package com.spring.book.tobyspring.connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class DConnectionMaker implements ConnectionMaker {
 
     @Override

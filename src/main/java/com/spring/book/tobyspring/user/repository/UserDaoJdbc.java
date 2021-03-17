@@ -27,20 +27,17 @@ public class UserDaoJdbc implements UserDao {
         this.dataSource = dataSource;
     }
 
-    private RowMapper<User> userMapper = new RowMapper<User>() {
-        @Override
-        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            User user = new User();
-            user.setId(rs.getString("id"));
-            user.setName(rs.getString("name"));
-            user.setPassword(rs.getString("password"));
-            user.setLevel(Level.valueOf(rs.getInt("level")));
-            user.setLogin(rs.getInt("login"));
-            user.setRecommend(rs.getInt("recommend"));
-            user.setEmail(rs.getString("email"));
+    private RowMapper<User> userMapper = (rs, rowNum) -> {
+        User user = new User();
+        user.setId(rs.getString("id"));
+        user.setName(rs.getString("name"));
+        user.setPassword(rs.getString("password"));
+        user.setLevel(Level.valueOf(rs.getInt("level")));
+        user.setLogin(rs.getInt("login"));
+        user.setRecommend(rs.getInt("recommend"));
+        user.setEmail(rs.getString("email"));
 
-            return user;
-        }
+        return user;
     };
 
 

@@ -31,13 +31,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public void upgradeLevels() {
-            final List<User> users = userDao.getAll();
+        final List<User> users = userDao.getAll();
 
-            for (User user : users) {
-                if (canUpgradeLevel(user)) {
-                    upgradeLevel(user);
-                }
+        for (User user : users) {
+            if (canUpgradeLevel(user)) {
+                upgradeLevel(user);
             }
+        }
     }
 
     public void add(User user) {

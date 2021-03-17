@@ -1,36 +1,36 @@
 package com.spring.book.tobyspring.calculator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.io.IOException;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 
 public class CalculatorTest {
 
     Calculator calculator;
     String numFilepath;
 
-    @BeforeEach
+    @Before
     public void setup() {
         this.calculator = new Calculator();
         this.numFilepath = getClass().getResource("/numbers.txt").getPath();
     }
 
     @Test
-    void sumOfNumbers() throws IOException {
-        Assertions.assertEquals(calculator.calcSum(this.numFilepath), 10);
+    public void sumOfNumbers() throws IOException {
+        assertThat(calculator.calcSum(this.numFilepath), is(10));
     }
 
     @Test
-    void multiplyOfNumbers() throws IOException {
-        Assertions.assertEquals(calculator.calcMultiply(this.numFilepath), 24);
+    public void multiplyOfNumbers() throws IOException {
+        assertThat(calculator.calcMultiply(this.numFilepath), is(24));
     }
 
     @Test
     public void concatenateStrings() throws IOException {
-        Assertions.assertEquals(calculator.concatenate(this.numFilepath), "1234");
+        assertThat(calculator.concatenate(this.numFilepath), is("1234"));
     }
 
 }

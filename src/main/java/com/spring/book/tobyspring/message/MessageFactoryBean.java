@@ -1,4 +1,4 @@
-package com.spring.book.tobyspring.factorybean;
+package com.spring.book.tobyspring.message;
 
 import org.springframework.beans.factory.FactoryBean;
 
