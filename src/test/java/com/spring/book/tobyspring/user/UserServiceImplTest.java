@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-import com.spring.book.tobyspring.factorybean.TxProxyFactoryBean;
 import com.spring.book.tobyspring.user.repository.UserDao;
 import com.spring.book.tobyspring.user.service.UserService;
 import com.spring.book.tobyspring.user.service.UserServiceImpl;
@@ -16,8 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -25,17 +22,15 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceImplTest {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private UserService testUserService;
 
     @Autowired
     private UserDao userDao;
@@ -47,9 +42,6 @@ public class UserServiceImplTest {
 
     @Autowired
     private ApplicationContext context;
-
-    @Autowired
-    private TxProxyFactoryBean txProxyFactoryBean;
 
     @Before
     public void setUp() {
@@ -114,15 +106,7 @@ public class UserServiceImplTest {
 
     @Test
     @DirtiesContext
-    public void upgradeAllOrNothing() throws Exception {
-        TestUserServiceImpl testUserServiceImpl = new TestUserServiceImpl(users.get(3).getId());
-        testUserServiceImpl.setUserDao(userDao);
-        testUserServiceImpl.setMailSender(mailSender);
-
-        ProxyFactoryBean txProxyFactoryBean = context.getBean("%userService", ProxyFactoryBean.class);
-        txProxyFactoryBean.setTarget(testUserServiceImpl);
-        UserService txUserService = (UserService) txProxyFactoryBean.getObject();
-
+    public void upgradeAllOrNothing() {
         userDao.deleteAll();
 
         for(User user : users) {
@@ -130,9 +114,9 @@ public class UserServiceImplTest {
         }
 
         try {
-            txUserService.upgradeLevels();
+            this.testUserService.upgradeLevels();
             fail("TestUserServiceException expected");
-        } catch(TestUserServiceException e){}
+        } catch(TestUserServiceException e) {}
 
         checkLevel(users.get(1),false);
     }
@@ -148,7 +132,7 @@ public class UserServiceImplTest {
     }
 
     static class TestUserServiceImpl extends UserServiceImpl {
-        private String id;
+        private String id = "id3";
 
         private TestUserServiceImpl(String id) {
             super( null, null);

@@ -2,16 +2,19 @@ package com.spring.book.tobyspring;
 
 import com.spring.book.tobyspring.connection.ConnectionMaker;
 import com.spring.book.tobyspring.connection.DConnectionMaker;
-import com.spring.book.tobyspring.message.MessageFactoryBean;
 import com.spring.book.tobyspring.mail.DummyMailService;
+import com.spring.book.tobyspring.message.MessageFactoryBean;
+import com.spring.book.tobyspring.pointcut.NameMatchClassMethodPointcut;
+import com.spring.book.tobyspring.user.TestUserService;
 import com.spring.book.tobyspring.user.proxy.TransactionAdvice;
 import com.spring.book.tobyspring.user.repository.UserDao;
 import com.spring.book.tobyspring.user.repository.UserDaoJdbc;
+import com.spring.book.tobyspring.user.service.UserService;
 import com.spring.book.tobyspring.user.service.UserServiceImpl;
 import javax.sql.DataSource;
-import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.Pointcut;
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +38,10 @@ public class ApplicationConfig {
         return new DConnectionMaker();
     }
 
-    @Bean
-    public UserServiceImpl userServiceImpl() {
-        return new UserServiceImpl(userDao(), mailSender());
-    }
+//    @Bean
+//    public UserServiceImpl userServiceImpl() {
+//        return new UserServiceImpl(userDao(), mailSender());
+//    }
 
     @Bean
     public PlatformTransactionManager platformTransactionManager(){
@@ -78,8 +81,9 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public NameMatchMethodPointcut nameMatchMethodPointcut(){
-        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+    public Pointcut TransactionPointCut(){
+        NameMatchClassMethodPointcut pointcut = new NameMatchClassMethodPointcut();
+        pointcut.setMappedClassName("*ServiceImpl");
         pointcut.setMappedName("upgrade*");
 
         return pointcut;
@@ -89,19 +93,42 @@ public class ApplicationConfig {
     public DefaultPointcutAdvisor transactionAdvisor(){
         DefaultPointcutAdvisor defaultPointcutAdvisor = new DefaultPointcutAdvisor();
         defaultPointcutAdvisor.setAdvice(transactionAdvice());
-        defaultPointcutAdvisor.setPointcut(nameMatchMethodPointcut());
+        defaultPointcutAdvisor.setPointcut(TransactionPointCut());
 
         return defaultPointcutAdvisor;
     }
 
-    @Bean
-    public ProxyFactoryBean userService() {
-        String[] interceptorNames = { "transactionAdvisor" };
-        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
-        proxyFactoryBean.setTarget(transactionAdvice());
-        proxyFactoryBean.setInterceptorNames(interceptorNames);
+//    @Bean
+//    public ProxyFactoryBean userService() {
+//        String[] interceptorNames = { "transactionAdvisor" };
+//        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
+//        proxyFactoryBean.setTarget(transactionAdvice());
+//        proxyFactoryBean.setInterceptorNames(interceptorNames);
+//
+//        return proxyFactoryBean;
+//    }
 
-        return proxyFactoryBean;
+    @Bean
+    public UserService UserService() {
+        UserService userService = new UserServiceImpl(userDao(), mailSender());
+
+        return userService;
+    }
+
+    @Bean
+    public UserService testUserService() {
+        TestUserService userService = new TestUserService(userDao(), mailSender());
+        userService.setId("id3");
+
+        return userService;
+    }
+
+    @Bean
+    public Pointcut transactionPointcut() {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("execution(* *..*ServiceImpl*.upgrade*(..))");
+
+        return pointcut;
     }
 
 }
